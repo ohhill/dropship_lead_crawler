@@ -1,0 +1,6 @@
+deploy
+.venv
+files
+__pycache__
+.idea
+.env

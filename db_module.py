@@ -7,6 +7,8 @@ import pandas as pd
 import psycopg2
 from psycopg2.extras import RealDictCursor
 
+from dotenv import load_dotenv, find_dotenv
+load_dotenv(find_dotenv())
 
 columns = ('Root Domain,'
            'updated_at,'

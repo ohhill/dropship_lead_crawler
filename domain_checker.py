@@ -312,10 +312,10 @@ def run_process():
     # stat.update({'count': len(domains)})
 
     while True:
-        domains = get_domain_from_db(chunk_size=3000)
+        domains = get_domain_from_db(chunk_size=1000)
         if not domains:
             break
-        pool = Pool(100)
+        pool = Pool(200)
         res = pool.map(process_one_domain, domains)
         pool.close()
         pool.join()

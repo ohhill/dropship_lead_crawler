@@ -251,11 +251,11 @@ def process_one_domain(domain: str) -> dict[str, str]:
 
         return {
             'Root Domain': domain['root_domain'],
-            'price link': ",\n".join(price_urls) if price_urls else None,
+            'price link': ",\n".join(price_urls)[:250] if price_urls else None,
             "subscription": is_subscription,
             "free trial": is_free_trial,
             "free trial price page": is_free_trial_price_page,
-            "redirecting_url": redirecting_url,
+            "redirecting_url": redirecting_url[:250],
             "status": "done",
 
             'Global Rank': similarweb_info.get('GlobalRank', {}).get('Rank'),
@@ -266,7 +266,7 @@ def process_one_domain(domain: str) -> dict[str, str]:
             'Traffic Sources Search': similarweb_info.get('TrafficSources', {}).get('Search'),
             'Traffic Sources Direct': similarweb_info.get('TrafficSources', {}).get('Direct'),
             'Category': similarweb_info.get("Category", None),
-            'Top Keywords': str(similarweb_info.get('TopKeywords', None)),
+            'Top Keywords': str(similarweb_info.get('TopKeywords', None))[:250],
             'Snapshot Date': similarweb_info.get('SnapshotDate', None),
             'Engagements Page Per Visit': similarweb_info.get('Engagments', {}).get('PagePerVisit'),
             'Engagements Visits': similarweb_info.get('Engagments', {}).get('Visits'),

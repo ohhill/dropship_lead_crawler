@@ -285,7 +285,7 @@ def get_domain_from_db(chunk_size):
             cursor = conn.cursor()
             cursor.execute(
                 f"SELECT root_domain FROM public.{DB_TABLE_NAME} "
-                f"WHERE global_rank is not NULL "
+                f"WHERE global_rank is NULL "
                 f" and ((free_trial is null or free_trial is FALSE)and (free_trial_price_page is null or free_trial_price_page is FALSE))"
                 f"LIMIT {chunk_size}")
             domains = cursor.fetchall()

@@ -123,7 +123,7 @@ def process_one_domain(domain: str) -> dict[str, str]:
         default_result['Root Domain'] = domain['root_domain']
         url = "http://" + domain['root_domain'] if not 'http' in domain['root_domain'] else domain['root_domain']
 
-        netloc_domain = urlparse(url).netloc.replace("www.", "")
+        netloc_domain = urlparse(url).netloc#.replace("www.", "")
         s3_filepath = f"{netloc_domain.split('.')[1]}/{netloc_domain}"
         print(s3_filepath)
 
@@ -284,7 +284,10 @@ def get_domain_from_db(chunk_size):
         with PSQLConnector(**CREDS) as conn:
             cursor = conn.cursor()
             cursor.execute(
-                f"SELECT root_domain FROM public.{DB_TABLE_NAME} WHERE status is NULL LIMIT {chunk_size}")
+                f"SELECT root_domain FROM public.{DB_TABLE_NAME} "
+                f"WHERE global_rank is not NULL "
+                f" and ((free_trial is null or free_trial is FALSE)and (free_trial_price_page is null or free_trial_price_page is FALSE))"
+                f"LIMIT {chunk_size}")
             domains = cursor.fetchall()
         return domains
     except Exception as e:
@@ -315,7 +318,7 @@ def run_process():
         domains = get_domain_from_db(chunk_size=1000)
         if not domains:
             break
-        pool = Pool(200)
+        pool = Pool(100)
         res = pool.map(process_one_domain, domains)
         pool.close()
         pool.join()
